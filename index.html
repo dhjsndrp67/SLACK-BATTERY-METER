@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="摆烂电量表：用一块电池量化你今天的摆烂额度，电量耗尽即进入省电模式。" />
+  <title>摆烂电量表 · 五毛钱特效版</title>
+  <link rel="stylesheet" href="style.css?v=18" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand__mark" aria-hidden="true">摆</span>
+      <div class="brand__text">
+        <strong>摆烂电量表</strong>
+        <small>SLACK BATTERY METER</small>
+      </div>
+    </div>
+    <div class="topbar__right">
+      <span class="badge badge--cheap">特效预算 ¥0.50</span>
+      <button class="icon-btn" id="soundBtn" type="button" aria-label="音效开关" title="音效开关">🔇</button>
+    </div>
+  </header>
+
+  <div class="hazard" aria-hidden="true"></div>
+
+  <div class="banner" aria-hidden="true">热烈庆祝本页荣获「年度最省钱特效奖」· 奖杯由 A4 纸打印</div>
+
+  <main class="app" id="app">
+    <div class="win-title" aria-hidden="true">
+      <span class="win-title__icon">🖥️</span>
+      <span class="win-title__text">摆烂电量表.exe — 五毛钱特效版</span>
+      <span class="win-title__btns"><i>_</i><i>□</i><i>×</i></span>
+    </div>
+    <div class="win-menu" aria-hidden="true">
+      <span>文件(F)</span><span>编辑(E)</span><span>查看(V)</span><span>帮助(H)</span>
+    </div>
+    <div class="notice" role="status">
+      <span class="notice__dot" aria-hidden="true"></span>
+      <div class="notice__viewport">
+        <span class="notice__track">
+          <span>系统公告：本仪表盘由三毛钱外包团队开发，剩余五毛全部花在了这条公告上。&nbsp;&nbsp;·&nbsp;&nbsp;注意：本产品不支持退款，也不支持努力。&nbsp;&nbsp;·&nbsp;&nbsp;电量低于 20% 时，摆烂将成为唯一选项。&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+          <span aria-hidden="true">系统公告：本仪表盘由三毛钱外包团队开发，剩余五毛全部花在了这条公告上。&nbsp;&nbsp;·&nbsp;&nbsp;注意：本产品不支持退款，也不支持努力。&nbsp;&nbsp;·&nbsp;&nbsp;电量低于 20% 时，摆烂将成为唯一选项。&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+        </span>
+      </div>
+    </div>
+
+    <section class="hero">
+      <p class="hero__eyebrow">TODAY'S ENERGY</p>
+      <p class="price-tag" aria-hidden="true"><s>原价 ¥9.90</s><b>现价 ¥0.50</b></p>
+      <h1 class="hero__title">摆烂电量表</h1>
+      <span class="new-tag" aria-hidden="true">NEW!</span>
+      <span class="spark spark--a" aria-hidden="true">★</span>
+      <span class="spark spark--b" aria-hidden="true">★</span>
+      <p class="hero__subtitle">今天，你还剩多少力气用来<span>摆烂</span>？</p>
+      <p class="hero__desc">每次点击「开始摆烂」都会消耗今日电量。电量越低，精神状态越接近真实。</p>
+    </section>
+
+    <section class="panel panel--battery" aria-labelledby="batteryTitle">
+      <div class="panel__head">
+        <h2 id="batteryTitle">今日摆烂电量</h2>
+        <span class="panel__hint">数据来源：昨天剩下的</span>
+      </div>
+
+      <div class="battery-wrap">
+        <div class="battery" id="battery">
+          <div class="battery__fill" id="fill"></div>
+          <div class="battery__grid" aria-hidden="true"></div>
+          <span class="battery__percent" id="percent">100%</span>
+          <span class="sticker" aria-hidden="true">五毛特效<br />虚标 99%</span>
+          <span class="mini-tag" aria-hidden="true">⚡ 不支持快充</span>
+        </div>
+        <div class="battery__cap" aria-hidden="true"></div>
+      </div>
+
+      <p class="hand-note" aria-hidden="true">↑ 电量都在这儿了，省着点用</p>
+
+      <p class="battery__status" id="status">电量满格，今天也是元气满满的摆烂人。</p>
+
+      <div class="controls">
+        <button class="btn btn--primary" id="slackBtn" type="button">
+          <span class="btn__label">开始摆烂</span>
+          <span class="btn__meta">-5% ~ -10%</span>
+        </button>
+        <button class="btn" id="workBtn" type="button">
+          <span class="btn__label">假装努力</span>
+          <span class="btn__meta">+5%（65% 成功率）</span>
+        </button>
+        <button class="btn btn--ghost" id="lieBtn" type="button">
+          <span class="btn__label">彻底躺平</span>
+          <span class="btn__meta">直接归零</span>
+        </button>
+      </div>
+
+      <p class="panel__foot">提示：电量会随时间自然流失（每 4 秒 -0.25%），就像你的斗志。</p>
+    </section>
+
+    <section class="stats" aria-label="摆烂数据">
+      <div class="stat">
+        <span class="stat__label">摆烂次数</span>
+        <strong class="stat__value" id="slackCount">0</strong>
+      </div>
+      <div class="stat">
+        <span class="stat__label">累计摆烂时长</span>
+        <strong class="stat__value" id="slackTime">0 秒</strong>
+      </div>
+      <div class="stat">
+        <span class="stat__label">摆烂等级</span>
+        <strong class="stat__value stat__value--text" id="level">Lv.0 纯路人</strong>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="achTitle">
+      <div class="panel__head">
+        <h2 id="achTitle">成就墙 · 五毛认证</h2>
+        <span class="panel__hint" id="achProgress">0 / 8</span>
+      </div>
+      <ul class="ach-list" id="achList"></ul>
+    </section>
+
+    <footer class="foot">
+      <p>本页特效总预算 ¥0.50，其中 ¥0.30 用于圆角，¥0.15 用于阴影，¥0.05 用于这句声明。</p>
+      <p class="foot__meta">摆烂电量表 · 五毛钱特效版 · 不提供任何实际帮助</p>
+      <p class="foot__meta">※ 本页面所有特效均为手工绘制，如有雷同，说明大家都很穷。</p>
+      <p class="foot__meta">建议使用 IE6.0 浏览器与 1024×768 分辨率获得最佳五毛体验。</p>
+      <div class="counter" aria-hidden="true">您是第 <b>000520</b> 位摆烂的人</div>
+      <p class="links">友情链接：<span class="fake-link">摆烂网</span> · <span class="fake-link">摸鱼在线</span> · <span class="fake-link">躺平之家</span> · <span class="fake-link">五毛素材库</span></p>
+      <p class="foot__meta">Copyright © 2003-2026 五毛特效工作室 · 保留所有穷酸权利</p>
+      <span class="foot__stamp">五毛特效工作室 · 已跑路</span>
+      <div class="ad-sticker" aria-hidden="true">广告位<br />招租<br /><s>月租 ¥0.50</s></div>
+    </footer>
+
+    <div class="rainbow" aria-hidden="true"></div>
+
+    <div class="win-status" aria-hidden="true">
+      <span>就绪</span>
+      <span class="win-status__cells">CAPS&nbsp;&nbsp;NUM&nbsp;&nbsp;SCRL</span>
+    </div>
+  </main>
+
+  <div class="toast-layer" id="toastLayer" aria-live="polite"></div>
+
+  <div class="burst" aria-hidden="true"><span>五毛<br />特效</span></div>
+
+  <div class="ending" id="ending" aria-hidden="true">
+    <div class="ending__card">
+      <p class="ending__eyebrow">BATTERY DEPLETED</p>
+      <h2>电量耗尽</h2>
+      <p class="ending__sub">恭喜你，成功把自己摆成了一滩。</p>
+      <p class="ending__stats" id="endingStats"></p>
+      <p class="ending__quote" id="endingQuote"></p>
+      <button class="btn btn--primary" id="restartBtn" type="button">
+        <span class="btn__label">假装充满电</span>
+        <span class="btn__meta">再来一次</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="script.js?v=7"></script>
+</body>
+</html>
